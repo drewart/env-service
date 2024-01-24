@@ -24,12 +24,13 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	headersFlat += "]"
-	log.Println("Env: ", env, "Host: ", r.Host, "Path: ", r.URL.Path, "Headers: ", headersFlat)
+	log.Println("Env: ", env, "RemoteAddr", r.RemoteAddr, "Host: ", r.Host, "Path: ", r.URL.Path, "Headers: ", headersFlat)
 	fmt.Fprintf(w, "Env: %s \nHost: %s\nPath: %s\nHeaders:%s", env, r.Host, r.URL.Path, headers)
 
 }
 
 func main() {
 	http.HandleFunc("/", handler)
+	log.SetOutput(os.Stdout)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
